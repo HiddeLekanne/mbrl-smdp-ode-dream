@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from gym.envs.mujoco.walker2d import Walker2dEnv
+from gymnasium.envs.mujoco.walker2d_v4 import Walker2dEnv
 
 
 class Walker2dSimulator(Walker2dEnv):
@@ -21,14 +21,15 @@ class Walker2dSimulator(Walker2dEnv):
         return "Walker2d_Simulator"
 
     def _get_obs(self):
-        qpos = self.sim.data.qpos
-        qvel = self.sim.data.qvel
+        qpos = self.data.qpos
+        qvel = self.data.qvel
         return np.concatenate([qpos[1:], np.clip(qvel, -10, 10), qpos[:1]]).ravel()
 
     def step(self, a, dt=4):
         self.frame_skip = int(dt)
-        ob, reward, done, info = super().step(a)
+        ob, reward, terminated, truncated, info = super().step(a)
         self.t += dt
+        done = terminated or truncated
         done = done or self.t >= self.horizon
         return ob, reward, done, {}
 

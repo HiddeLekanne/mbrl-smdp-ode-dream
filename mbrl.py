@@ -271,7 +271,8 @@ class MBRL(object):
             Note that when we call this function, env model should been trained to generate reasonable latent states
         """
         latent_states = [self.model.sample_init_latent_states() if self.policy.latent else None]
-        states = [torch.tensor(self.simulator.reset(), dtype=torch.float, device=self.device)]
+        state, _ = self.simulator.reset()
+        states = [torch.tensor(state, dtype=torch.float, device=self.device)]
         actions_encoded, rewards, dts = [], [], [0.]
         length = 0
         for _ in range(max_steps):

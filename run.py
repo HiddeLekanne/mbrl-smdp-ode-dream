@@ -85,7 +85,7 @@ elif args.env == 'hopper':
     simulator = HopperSimulator()
 else:
     raise NotImplementedError
-simulator.seed(args.seed)
+# simulator.seed(args.seed)
 
 ckpt_path = 'models/{}_{}_{}.ckpt'.format(args.model, args.env, exp_id)
 if args.log:

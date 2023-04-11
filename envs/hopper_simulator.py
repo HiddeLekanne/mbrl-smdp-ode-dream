@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from gym.envs.mujoco.hopper import HopperEnv
+from gymnasium.envs.mujoco.hopper_v4 import HopperEnv
 
 
 class HopperSimulator(HopperEnv):
@@ -21,15 +21,16 @@ class HopperSimulator(HopperEnv):
 
     def _get_obs(self):
         return np.concatenate([
-            self.sim.data.qpos.flat[1:],
-            np.clip(self.sim.data.qvel.flat, -10, 10),
-            self.sim.data.qpos.flat[:1]
+            self.sim.qpos.flat[1:],
+            np.clip(self.sim.qvel.flat, -10, 10),
+            self.sim.qpos.flat[:1]
         ])
 
     def step(self, a, dt=4):
         self.frame_skip = int(dt)
-        ob, reward, done, info = super().step(a)
+        ob, reward, terminated, truncated, info = super().step(a)
         self.t += dt
+        done = terminated or truncated
         done = done or self.t >= self.horizon
         return ob, reward, done, {}
 

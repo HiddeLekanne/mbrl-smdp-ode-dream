@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from gym.envs.mujoco.half_cheetah import HalfCheetahEnv
+from gymnasium.envs.mujoco.half_cheetah_v4 import HalfCheetahEnv
 
 
 class HalfCheetahSimulator(HalfCheetahEnv):
@@ -21,15 +21,16 @@ class HalfCheetahSimulator(HalfCheetahEnv):
 
     def _get_obs(self):
         return np.concatenate([
-            self.sim.data.qpos.flat[1:],
-            self.sim.data.qvel.flat,
-            self.sim.data.qpos.flat[:1],
+            self.data.qpos.flat[1:],
+            self.data.qvel.flat,
+            self.data.qpos.flat[:1],
         ])
 
     def step(self, a, dt=5):
         self.frame_skip = int(dt)
-        ob, reward, done, info = super().step(a)
+        ob, reward, terminated, truncated, info = super().step(a)
         self.t += dt
+        done = terminated or truncated
         done = done or self.t >= self.horizon
         return ob, reward, done, info
 
