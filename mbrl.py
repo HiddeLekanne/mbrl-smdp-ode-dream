@@ -271,8 +271,8 @@ class MBRL(object):
             Note that when we call this function, env model should been trained to generate reasonable latent states
         """
         latent_states = [self.model.sample_init_latent_states() if self.policy.latent else None]
-        state, _ = self.simulator.reset()
-        states = [torch.tensor(state, dtype=torch.float, device=self.device)]
+        tmp, _ = self.simulator.reset()
+        states = [torch.tensor(tmp, dtype=torch.float, device=self.device)]
         actions_encoded, rewards, dts = [], [], [0.]
         length = 0
         for _ in range(max_steps):
@@ -337,7 +337,8 @@ class MBRL(object):
         self.model.timer.reset()  # reset model's timer every time
         latent_state = self.model.sample_init_latent_states()
         if env_init or len(self.memory_traj_train) == 0:
-            state = torch.tensor(self.simulator.reset(), dtype=torch.float, device=self.device)
+            tmp, _ = self.simulator.reset()
+            state = torch.tensor(tmp, dtype=torch.float, device=self.device)
         else:
             self.simulator.reset()
             trajs = self.memory_traj_train.sample(1)
@@ -378,7 +379,9 @@ class MBRL(object):
     def mpc_planning(self, max_steps, planning_horizon=20, search_population=1000, store_trans=True, store_traj=False,
                      val_ratio=0, cut_length=0, rand=False, combine_mf=False, soft_num=50):
         latent_states = [self.model.sample_init_latent_states()]
-        states = [torch.tensor(self.simulator.reset(), dtype=torch.float, device=self.device)]
+
+        tmp, _ = self.simulator.reset()
+        states = [torch.tensor(tmp, dtype=torch.float, device=self.device)]
         actions_encoded, rewards, dts = [], [], [0.]
         length = 0
         for _ in range(max_steps):

@@ -75,6 +75,7 @@ class Encoder_z0_RNN(nn.Module):
                     lengths, shape [N,]
             @:return mean, logvar of z0, shape [N, D_latent]
         """
+        lengths = lengths.to("cpu")
         data_packed = pack_padded_sequence(data, lengths, batch_first=True, enforce_sorted=False)
         _, hidden = self.rnn(data_packed)
         assert hidden.size(1) == data.size(0)

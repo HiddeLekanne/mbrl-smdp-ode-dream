@@ -21,9 +21,9 @@ class HopperSimulator(HopperEnv):
 
     def _get_obs(self):
         return np.concatenate([
-            self.sim.qpos.flat[1:],
-            np.clip(self.sim.qvel.flat, -10, 10),
-            self.sim.qpos.flat[:1]
+            self.data.qpos.flat[1:],
+            np.clip(self.data.qvel.flat, -10, 10),
+            self.data.qpos.flat[:1]
         ])
 
     def step(self, a, dt=4):
