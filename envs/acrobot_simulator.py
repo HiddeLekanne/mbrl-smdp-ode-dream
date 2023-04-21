@@ -1,8 +1,8 @@
 """classic Acrobot task"""
 import numpy as np
 from numpy import sin, cos, pi
-from gym import core, spaces
-from gym.utils import seeding
+from gymnasium import core, spaces
+from gymnasium.utils import seeding
 
 __copyright__ = "Copyright 2013, RLPy http://acl.mit.edu/RLPy"
 __credits__ = ["Alborz Geramifard", "Robert H. Klein", "Christoph Dann",
@@ -199,7 +199,7 @@ class AcrobotSimulator(core.Env):
         return (dtheta1, dtheta2, ddtheta1, ddtheta2, 0.)
 
     def render(self, mode='human'):
-        from gym.envs.classic_control import rendering
+        from gymnasium.envs.classic_control import rendering
 
         s = self.state
 

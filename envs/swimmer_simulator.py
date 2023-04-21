@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from gym.envs.mujoco.swimmer import SwimmerEnv
+from gymnasium.envs.mujoco.swimmer import SwimmerEnv
 
 
 class SwimmerSimulator(SwimmerEnv):

@@ -1,13 +1,13 @@
 import numpy as np
-import gym
-from gym import spaces
-from gym.utils import seeding
+import gymnasium
+from gymnasium import spaces
+from gymnasium.utils import seeding
 import matplotlib.pyplot as plt
 
 SQRT2 = np.sqrt(2)
 
 
-class WindyGridSimulator(gym.Env):
+class WindyGridSimulator(gymnasium.Env):
 
     num_states = 2
     num_actions = 8
