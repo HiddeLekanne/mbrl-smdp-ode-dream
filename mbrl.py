@@ -262,7 +262,7 @@ class MBRL(object):
                 break
 
         utils.logout(self.logger, 'Finish training model, best test MSE: %.6f' % best_loss)
-        self.model.load_state_dict(model_dict)
+        self.model.load_state_dict(torch.load(self.ckpt_path)["model_state_dict"])
 
     def run_policy(self, max_steps, eps=None, store_trans=True, optimize_mf=True, store_traj=False, val_ratio=0,
                    cut_length=0):
